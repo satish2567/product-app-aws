@@ -3,8 +3,8 @@ FROM public.ecr.aws/docker/library/openjdk:17
 # Set working directory inside the container
 WORKDIR /app
 # Copy the compiled Java application JAR file into the container
-COPY ./target/contact-springboot-app-0.0.1-SNAPSHOT.jar /app
+COPY ./target/Product-App-AWS-0.0.1-SNAPSHOT.jar /app
 # Expose the port the Spring Boot application will run on
 EXPOSE 8080
 # Command to run the application
-CMD ["java", "-jar", "contact-springboot-app-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "Product-App-AWS-0.0.1-SNAPSHOT.jar"]
