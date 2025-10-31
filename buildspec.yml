@@ -1,12 +1,31 @@
 version: 0.2
 
+env:
+  variables:
+    ImageName: "product-app"
+    AWS_REGION: "eu-north-1"
+    ECR_REPO: "422374168930.dkr.ecr.eu-north-1.amazonaws.com"
+
 phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
+
   build:
     commands:
+      - echo Building JAR...
       - mvn clean install
+      - echo Building Docker image...
+      - docker build -t $ImageName:latest .
+      - docker tag $ImageName:latest $ECR_REPO/$ImageName:latest
+
   post_build:
     commands:
+      - echo Pushing Docker image to ECR...
+      - docker push $ECR_REPO/$ImageName:latest
       - echo Build completed
+
 artifacts:
   files:
     - target/*.jar
